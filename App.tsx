@@ -38,6 +38,7 @@ const App: React.FC = () => {
     const [selectedPlanId, setSelectedPlanId] = useState<string | null>(SERVICE_PLANS[0].id);
     const [baseHours, setBaseHours] = useState('6');
     const [soundDuplicationCost, setSoundDuplicationCost] = useState('600');
+    const [terms, setTerms] = useState<string[]>(TERMS_AND_CONDITIONS);
     
     const [signatureUrl, setSignatureUrl] = useState<string | null>(null);
     const signaturePadRef = useRef<SignaturePadRef>(null);
@@ -90,15 +91,35 @@ const App: React.FC = () => {
         );
     };
 
+    const handleTermChange = (index: number, value: string) => {
+        setTerms(prevTerms => {
+            const newTerms = [...prevTerms];
+            newTerms[index] = value;
+            return newTerms;
+        });
+    };
+
+    const addTerm = () => {
+        setTerms(prevTerms => [...prevTerms, 'Nuevo término...']);
+    };
+
+    const removeTerm = (indexToRemove: number) => {
+        setTerms(prevTerms => prevTerms.filter((_, index) => index !== indexToRemove));
+    };
+
+
     const selectedPlan = servicePlans.find(p => p.id === selectedPlanId);
 
     const getGeneratedTerms = () => {
-        return TERMS_AND_CONDITIONS.map((term, index) => {
-            if (index === 9) {
-                return term.replace('6 horas', `${baseHours} horas`);
+        const originalTermForHours = TERMS_AND_CONDITIONS[9];
+        const originalTermForCost = TERMS_AND_CONDITIONS[11];
+
+        return terms.map((term) => {
+            if (term.includes('6 horas') && term.includes('Contrato base por')) {
+                 return term.replace(originalTermForHours, originalTermForHours.replace('6 horas', `${baseHours} horas`));
             }
-            if (index === 11) {
-                return term.replace('600 soles', `${soundDuplicationCost} soles`);
+            if (term.includes('600 soles') && term.includes('duplicar el sonido')) {
+                return term.replace(originalTermForCost, originalTermForCost.replace('600 soles', `${soundDuplicationCost} soles`));
             }
             return term;
         });
@@ -111,6 +132,10 @@ const App: React.FC = () => {
 
         setIsSaving(true);
 
+        contractElement.style.visibility = 'visible';
+
+        await new Promise(resolve => setTimeout(resolve, 50));
+
         try {
             const canvas = await html2canvas(contractElement, {
                 scale: 2,
@@ -119,8 +144,8 @@ const App: React.FC = () => {
             });
             const imgData = canvas.toDataURL('image/png');
             
-            const pdfWidth = 210; // A4 width in mm
-            const pdfHeight = 297; // A4 height in mm
+            const pdfWidth = 210;
+            const pdfHeight = 297;
             
             const pdf = new jsPDF({
                 orientation: 'portrait',
@@ -150,6 +175,7 @@ const App: React.FC = () => {
             console.error("Error generating PDF:", error);
             alert("Hubo un error al generar el PDF. Por favor, intente de nuevo.");
         } finally {
+            contractElement.style.visibility = 'hidden';
             setIsSaving(false);
         }
     };
@@ -226,12 +252,16 @@ const App: React.FC = () => {
 
                     <Section title="Términos y Condiciones">
                         <div className="prose prose-sm max-w-none text-gray-600 bg-gray-50 p-4 rounded-md border">
-                            <ul className="list-decimal list-inside space-y-3">
-                                {TERMS_AND_CONDITIONS.map((term, index) => {
-                                    if (index === 9) {
+                            <ol className="list-decimal list-inside space-y-3">
+                                {terms.map((term, index) => {
+                                    const isHoursTerm = term.includes('6 horas') && term.includes('Contrato base por');
+                                    const isCostTerm = term.includes('600 soles') && term.includes('duplicar el sonido');
+
+                                    if (isHoursTerm) {
                                         const parts = term.split('6 horas');
                                         return (
-                                            <li key={index}>
+                                            <li key={index} className="flex items-start group">
+                                                <div className="flex-grow">
                                                 {parts[0]}
                                                 <input 
                                                     type="number" 
@@ -240,13 +270,15 @@ const App: React.FC = () => {
                                                     className="inline-block w-16 mx-1 text-center bg-gray-100 border border-gray-300 rounded-md shadow-sm py-1 px-2 focus:outline-none focus:ring-slate-500 focus:border-slate-500"
                                                 />
                                                 horas{parts[1]}
+                                                </div>
                                             </li>
                                         );
                                     }
-                                    if (index === 11) {
+                                    if (isCostTerm) {
                                         const parts = term.split('600 soles');
                                         return (
-                                            <li key={index}>
+                                            <li key={index} className="flex items-start group">
+                                                <div className="flex-grow">
                                                 {parts[0]}
                                                 <input 
                                                     type="number" 
@@ -255,13 +287,38 @@ const App: React.FC = () => {
                                                     className="inline-block w-24 mx-1 text-center bg-gray-100 border border-gray-300 rounded-md shadow-sm py-1 px-2 focus:outline-none focus:ring-slate-500 focus:border-slate-500"
                                                 />
                                                 soles{parts[1]}
+                                                </div>
                                             </li>
                                         );
                                     }
-                                    return <li key={index}>{term}</li>;
+                                    return (
+                                        <li key={index} className="flex items-start group">
+                                            <div className="flex-grow">
+                                                <textarea
+                                                    value={term}
+                                                    onChange={(e) => handleTermChange(index, e.target.value)}
+                                                    rows={Math.max(1, Math.ceil(term.length / 80))}
+                                                    className="w-full bg-transparent focus:bg-white focus:ring-1 ring-slate-400 rounded-md p-1 transition-colors resize-none"
+                                                />
+                                            </div>
+                                            <button
+                                                onClick={() => removeTerm(index)}
+                                                className="ml-2 text-red-500 opacity-0 group-hover:opacity-100 hover:text-red-700 transition-opacity text-lg flex-shrink-0"
+                                                aria-label="Eliminar término"
+                                            >
+                                                &times;
+                                            </button>
+                                        </li>
+                                    );
                                 })}
-                            </ul>
+                            </ol>
                         </div>
+                         <button 
+                            onClick={addTerm}
+                            className="text-sm text-slate-600 hover:text-slate-800 font-semibold mt-4 py-2 px-3 rounded-md bg-slate-200 hover:bg-slate-300 transition-colors w-full"
+                        >
+                            + Añadir Término
+                        </button>
                     </Section>
 
                     <Section title="Firma del Cliente">
@@ -291,8 +348,16 @@ const App: React.FC = () => {
              </main>
 
             {/* Hidden component for PDF generation */}
-            <div className="absolute -z-10" style={{ left: '-9999px', top: 0, width: '210mm' }}>
+            <div style={{
+                position: 'absolute',
+                top: 0,
+                left: 0,
+                width: '210mm',
+                zIndex: -1,
+                visibility: 'hidden',
+             }}>
                  <ContractPreview 
+                    key={`${selectedPlanId}-${terms.length}`}
                     ref={contractPreviewRef}
                     data={contractData}
                     selectedPlan={selectedPlan}

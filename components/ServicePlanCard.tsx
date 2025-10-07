@@ -37,12 +37,12 @@ export const ServicePlanCard: React.FC<ServicePlanCardProps> = ({ plan, isSelect
     return (
         <div 
             onClick={onSelect}
-            className={`cursor-pointer border-2 rounded-lg p-6 flex flex-col h-full transition-all duration-300 ${isSelected ? 'border-slate-500 bg-slate-50 shadow-lg' : 'border-gray-300 bg-white hover:border-slate-400 hover:bg-gray-50'}`}
+            className={`cursor-pointer border-2 rounded-lg p-6 flex flex-col h-full transition-all duration-300 ${isSelected ? 'border-blue-600 bg-blue-50 shadow-lg' : 'border-gray-300 bg-white hover:border-slate-400 hover:bg-gray-50'}`}
         >
             <EditableField 
                 value={plan.name}
                 onChange={(e) => onPlanChange(plan.id, 'name', e.target.value)}
-                className={`text-xl font-bold ${isSelected ? 'text-slate-800' : 'text-gray-900'}`}
+                className={`text-xl font-bold ${isSelected ? 'text-blue-900' : 'text-gray-900'}`}
             />
             <EditableField 
                 value={plan.description}
@@ -52,13 +52,13 @@ export const ServicePlanCard: React.FC<ServicePlanCardProps> = ({ plan, isSelect
             <EditableField 
                 value={plan.price}
                 onChange={(e) => onPlanChange(plan.id, 'price', e.target.value)}
-                className={`text-2xl font-semibold mb-4 ${isSelected ? 'text-slate-900' : 'text-gray-800'}`}
+                className={`text-2xl font-semibold mb-4 ${isSelected ? 'text-blue-900' : 'text-gray-800'}`}
             />
             
             <ul className="space-y-2 text-sm text-gray-600 flex-grow">
                 {plan.details.map((detail, index) => (
                     <li key={index} className="flex items-start group">
-                        <svg className={`w-4 h-4 mr-2 mt-2 ${isSelected ? 'text-slate-600' : 'text-slate-500'} flex-shrink-0`} fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7"></path></svg>
+                        <svg className={`w-4 h-4 mr-2 mt-2 ${isSelected ? 'text-blue-700' : 'text-slate-500'} flex-shrink-0`} fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7"></path></svg>
                         <div className="flex-grow">
                              <EditableField 
                                 value={detail}

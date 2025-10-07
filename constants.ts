@@ -1,3 +1,4 @@
+
 import { ServicePlan } from './types';
 
 export const SERVICE_PLANS: ServicePlan[] = [
@@ -20,7 +21,7 @@ export const SERVICE_PLANS: ServicePlan[] = [
     rider: 'Requiere: 1 toma de corriente y 2 cables XLR para audio.'
   },
   {
-    id: 'platiniun',
+    id: 'platinum',
     name: 'Servicio Platinum',
     price: 'S/ 0',
     description: 'DJ + Sonido (6 horas)',
