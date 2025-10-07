@@ -1,0 +1,5 @@
+{
+  "name": "Modern Service Contract Generator",
+  "description": "A modern, elegant, and professional web application to generate a service contract. Users can fill in details, select a service plan, provide a digital signature, and save the final document as a PDF.",
+  "requestFramePermissions": []
+}

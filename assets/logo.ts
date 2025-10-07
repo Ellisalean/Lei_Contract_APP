@@ -1,0 +1,1 @@
+export const LOGO_URL = `https://cdn.myportfolio.com/d435fa58-d32c-4141-8a15-0f2bfccdea41/8fb4bebc-b101-40c6-948b-bab5e492a387_rw_1920.png?h=1687faa52dab1350832185704ee0187b`;
