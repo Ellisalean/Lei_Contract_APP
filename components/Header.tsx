@@ -3,7 +3,7 @@ import { LOGO_URL } from '../assets/logo';
 
 export const Header: React.FC = () => {
     return (
-        <header className="bg-slate-800 text-white -m-6 sm:-m-8 p-6 sm:p-8 rounded-t-lg flex items-center space-x-4 sm:space-x-6 shadow-lg">
+        <header className="bg-gradient-to-br from-slate-800 to-slate-900 text-white -m-6 sm:-m-8 p-6 sm:p-8 rounded-t-2xl flex items-center space-x-4 sm:space-x-6 shadow-lg">
             <img src={LOGO_URL} alt="Dj Lei Logo" className="h-24 w-24 sm:h-28 sm:w-28 object-contain flex-shrink-0" />
             <div>
                 <h1 className="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">CONTRATO DE SERVICIO</h1>
