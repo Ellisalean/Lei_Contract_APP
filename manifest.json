@@ -1,0 +1,21 @@
+{
+  "short_name": "Contrato DJ Lei",
+  "name": "Generador de Contratos de Servicio DJ Lei",
+  "description": "Una aplicación web moderna, elegante y profesional para generar un contrato de servicios. Los usuarios pueden rellenar detalles, seleccionar un plan de servicio, proporcionar una firma digital y guardar el documento final como PDF.",
+  "icons": [
+    {
+      "src": "https://cdn.myportfolio.com/d435fa58-d32c-4141-8a15-0f2bfccdea41/8fb4bebc-b101-40c6-948b-bab5e492a387_rw_1920.png?h=1687faa52dab1350832185704ee0187b",
+      "type": "image/png",
+      "sizes": "192x192"
+    },
+    {
+      "src": "https://cdn.myportfolio.com/d435fa58-d32c-4141-8a15-0f2bfccdea41/8fb4bebc-b101-40c6-948b-bab5e492a387_rw_1920.png?h=1687faa52dab1350832185704ee0187b",
+      "type": "image/png",
+      "sizes": "512x512"
+    }
+  ],
+  "start_url": ".",
+  "display": "standalone",
+  "theme_color": "#1e293b",
+  "background_color": "#f8fafc"
+}
