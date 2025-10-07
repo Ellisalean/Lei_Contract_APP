@@ -16,13 +16,11 @@ const PreviewField: React.FC<{ label: string; value: string }> = ({ label, value
 export const ContractPreview = React.forwardRef<HTMLDivElement, ContractPreviewProps>(
     ({ data, selectedPlan, signatureUrl, terms }, ref) => {
         return (
-            <div ref={ref} className="bg-white p-8 lg:p-12 rounded-lg shadow-lg border border-gray-200 font-sans text-sm text-gray-700 leading-relaxed" id="contract-preview">
+            <div ref={ref} className="bg-white p-12 font-sans text-sm text-gray-700 leading-relaxed" id="contract-preview">
                 {/* Header */}
-                <div className="bg-slate-800 text-white -m-8 lg:-m-12 mb-6 p-8 lg:p-12 rounded-t-lg flex items-center justify-center relative min-h-[144px]">
-                     <div className="absolute left-8 lg:left-12 top-1/2 -translate-y-1/2">
-                        <img src={LOGO_URL} alt="Logo" className="h-32 w-32 object-contain"/>
-                     </div>
-                     <div className="text-center">
+                <div className="bg-slate-800 text-white -m-12 mb-8 p-12 rounded-t-lg flex items-center space-x-8">
+                     <img src={LOGO_URL} alt="Logo" className="h-32 w-32 object-contain flex-shrink-0"/>
+                     <div>
                         <h1 className="text-2xl font-extrabold text-white tracking-tight">CONTRATO DE SERVICIO</h1>
                         <h1 className="text-2xl font-extrabold text-slate-300 tracking-tight">EVENTOS LEI</h1>
                         <p className="text-slate-400 mt-1 text-sm">Una experiencia a otro nivel</p>

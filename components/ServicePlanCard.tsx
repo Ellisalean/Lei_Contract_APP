@@ -15,7 +15,7 @@ const EditableField: React.FC<EditableFieldProps> = ({ value, onChange, placehol
         onChange,
         onClick: (e: React.MouseEvent) => e.stopPropagation(),
         placeholder,
-        className: `bg-transparent hover:bg-slate-100 focus:bg-white focus:ring-1 ring-slate-400 rounded-md w-full p-1 transition-colors ${className}`
+        className: `bg-transparent hover:bg-slate-100 focus:bg-white focus:ring-1 ring-blue-400 rounded-md w-full p-1 transition-colors ${className}`
     };
     if (isTextarea) {
         return <textarea {...commonProps} rows={2} />;
@@ -37,7 +37,7 @@ export const ServicePlanCard: React.FC<ServicePlanCardProps> = ({ plan, isSelect
     return (
         <div 
             onClick={onSelect}
-            className={`cursor-pointer border-2 rounded-lg p-6 flex flex-col h-full transition-all duration-300 ${isSelected ? 'border-blue-600 bg-blue-50 shadow-lg' : 'border-gray-300 bg-white hover:border-slate-400 hover:bg-gray-50'}`}
+            className={`cursor-pointer border-2 rounded-lg p-6 flex flex-col h-full transition-all duration-300 transform hover:scale-[1.02] ${isSelected ? 'border-blue-600 bg-blue-50 shadow-lg' : 'border-gray-300 bg-white hover:border-slate-400 hover:bg-gray-50'}`}
         >
             <EditableField 
                 value={plan.name}

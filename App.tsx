@@ -1,4 +1,3 @@
-
 import React, { useState, useRef } from 'react';
 import { jsPDF } from 'jspdf';
 import html2canvas from 'html2canvas';
@@ -132,8 +131,6 @@ const App: React.FC = () => {
 
         setIsSaving(true);
 
-        contractElement.style.visibility = 'visible';
-
         await new Promise(resolve => setTimeout(resolve, 50));
 
         try {
@@ -175,7 +172,6 @@ const App: React.FC = () => {
             console.error("Error generating PDF:", error);
             alert("Hubo un error al generar el PDF. Por favor, intente de nuevo.");
         } finally {
-            contractElement.style.visibility = 'hidden';
             setIsSaving(false);
         }
     };
@@ -186,9 +182,8 @@ const App: React.FC = () => {
     };
 
     return (
-        <div className="bg-gray-100 min-h-screen text-gray-800 font-sans">
-             <main className="max-w-screen-lg mx-auto p-4 sm:p-8">
-                
+        <div className="bg-slate-50 min-h-screen text-gray-800 font-sans">
+             <main className="max-w-4xl mx-auto p-4 sm:p-8">
                 <div className="bg-white p-6 sm:p-8 rounded-lg shadow-lg border border-gray-200 space-y-10">
                     <Header />
 
@@ -251,7 +246,7 @@ const App: React.FC = () => {
                     </Section>
 
                     <Section title="Términos y Condiciones">
-                        <div className="prose prose-sm max-w-none text-gray-600 bg-gray-50 p-4 rounded-md border">
+                        <div className="prose prose-sm max-w-none text-gray-600 bg-slate-50 p-4 rounded-md border">
                             <ol className="list-decimal list-inside space-y-3">
                                 {terms.map((term, index) => {
                                     const isHoursTerm = term.includes('6 horas') && term.includes('Contrato base por');
@@ -267,7 +262,7 @@ const App: React.FC = () => {
                                                     type="number" 
                                                     value={baseHours}
                                                     onChange={(e) => setBaseHours(e.target.value)}
-                                                    className="inline-block w-16 mx-1 text-center bg-gray-100 border border-gray-300 rounded-md shadow-sm py-1 px-2 focus:outline-none focus:ring-slate-500 focus:border-slate-500"
+                                                    className="inline-block w-16 mx-1 text-center bg-gray-100 border border-gray-300 rounded-md shadow-sm py-1 px-2 focus:outline-none focus:ring-blue-500 focus:border-blue-500"
                                                 />
                                                 horas{parts[1]}
                                                 </div>
@@ -284,7 +279,7 @@ const App: React.FC = () => {
                                                     type="number" 
                                                     value={soundDuplicationCost}
                                                     onChange={(e) => setSoundDuplicationCost(e.target.value)}
-                                                    className="inline-block w-24 mx-1 text-center bg-gray-100 border border-gray-300 rounded-md shadow-sm py-1 px-2 focus:outline-none focus:ring-slate-500 focus:border-slate-500"
+                                                    className="inline-block w-24 mx-1 text-center bg-gray-100 border border-gray-300 rounded-md shadow-sm py-1 px-2 focus:outline-none focus:ring-blue-500 focus:border-blue-500"
                                                 />
                                                 soles{parts[1]}
                                                 </div>
@@ -298,7 +293,7 @@ const App: React.FC = () => {
                                                     value={term}
                                                     onChange={(e) => handleTermChange(index, e.target.value)}
                                                     rows={Math.max(1, Math.ceil(term.length / 80))}
-                                                    className="w-full bg-transparent focus:bg-white focus:ring-1 ring-slate-400 rounded-md p-1 transition-colors resize-none"
+                                                    className="w-full bg-transparent focus:bg-white focus:ring-1 ring-blue-400 rounded-md p-1 transition-colors resize-none"
                                                 />
                                             </div>
                                             <button
@@ -339,25 +334,22 @@ const App: React.FC = () => {
                         <button 
                             onClick={handleSaveAsPdf}
                             disabled={isSaving}
-                            className="w-full max-w-lg px-8 py-4 bg-slate-700 hover:bg-slate-800 text-white font-bold rounded-lg shadow-lg transform hover:scale-105 transition-all duration-300 disabled:bg-gray-400 disabled:cursor-not-allowed">
-                            {isSaving ? 'Guardando...' : 'Guardar Documento como PDF'}
+                            className="w-full max-w-lg px-8 py-4 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-lg shadow-lg transform hover:scale-105 transition-all duration-300 disabled:bg-gray-400 disabled:cursor-not-allowed flex items-center justify-center space-x-2">
+                            {isSaving && (
+                                <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                                </svg>
+                            )}
+                            <span>{isSaving ? 'Guardando...' : 'Guardar Documento como PDF'}</span>
                         </button>
                     </div>
                 </div>
-
              </main>
 
-            {/* Hidden component for PDF generation */}
-            <div style={{
-                position: 'absolute',
-                top: 0,
-                left: 0,
-                width: '210mm',
-                zIndex: -1,
-                visibility: 'hidden',
-             }}>
-                 <ContractPreview 
-                    key={`${selectedPlanId}-${terms.length}`}
+            {/* Hidden preview for PDF generation */}
+            <div className="absolute top-0 -left-[9999px]" style={{width: '800px'}}>
+                 <ContractPreview
                     ref={contractPreviewRef}
                     data={contractData}
                     selectedPlan={selectedPlan}
