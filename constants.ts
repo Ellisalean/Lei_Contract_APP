@@ -1,4 +1,3 @@
-
 import { ServicePlan } from './types';
 
 export const SERVICE_PLANS: ServicePlan[] = [
@@ -39,7 +38,7 @@ export const SERVICE_PLANS: ServicePlan[] = [
     price: 'S/ 0',
     description: 'DJ + Sonido + Iluminación (6 horas)',
     details: [
-      'Todo lo del Plan Platiniun',
+      'Todo lo del Plan Platinum',
       'Set de estructura tipo Global Truss para iluminación',
       '4 luces par led DMX de 36 x 3 w',
       '1 Máquina de humo',
